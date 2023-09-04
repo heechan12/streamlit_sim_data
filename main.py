@@ -10,23 +10,21 @@ if __name__ == '__main__':
 
     # 1. SIM Data 입력
     st.subheader('1. SIM Data 입력')
-    test_code = st.text_area(":red[0x를 제외한 500자 Hex Code] 를 입력하세요", placeholder='0x를 제외한 500자 Hex Code를 입력하세요', height=200)
+    test_code = st.text_area(label=":red[0x를 제외한 500자 Hex Code] 를 입력하세요",
+                             placeholder='0x를 제외한 500자 Hex Code를 입력하세요',
+                             height=200)
     list_test_code = []
 
     if st.button('Code 확인', type="primary"):
         if not util.isCorrectLength(test_code, CODE_LENGTH) or not util.isHex(test_code):
-            if not util.isCorrectLength(test_code, CODE_LENGTH) :
+            if not util.isCorrectLength(test_code, CODE_LENGTH):
                 st.warning(f'''코드 길이가 :red[{CODE_LENGTH}자]가 아닙니다. (:red[{len(test_code)} 자])''', icon="⚠️")
             if not util.isHex(test_code):
                 st.warning('코드가 :red[Hex Code]가 아닙니다.', icon="⚠️")
-            # exit(0)
-        # elif not util.isHex(test_code):
-        #     st.warning('코드가 :red[Hex Code]가 아닙니다.', icon="⚠️")
-            # exit(0)
         else:
             st.success('코드가 정상입니다.', icon="👍")
             # st.balloons()
-            # Todo : split_code_to_datalist 로 변경 필요
+            # Todo : split_code_to_data_list 로 변경 필요
             # Todo : 그런데 코드 구분이 정해진 숫자일지??? (담당자 확인 필요)
             list_test_code = util.split10(test_code)
 
