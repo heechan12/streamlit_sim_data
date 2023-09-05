@@ -6,10 +6,10 @@ from constant import *
 # test_code = '''0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123'''
 
 if __name__ == '__main__':
-    st.title('SIM Data Decoder')
+    st.title('PLMN update tool')
 
     # 1. SIM Data 입력
-    st.subheader('1. SIM Data 입력')
+    st.header('1. 기존 SIM Data 입력')
     test_code = st.text_area(label=":red[0x를 제외한 500자 Hex Code] 를 입력하세요",
                              placeholder='0x를 제외한 500자 Hex Code를 입력하세요',
                              height=200)
@@ -35,7 +35,7 @@ if __name__ == '__main__':
             print(sim_data.code3)
 
             # 2. SIM Data 출력
-            st.subheader('2. SIM Data 출력')
+            st.header('2. 업데이트 할 정보 입력')
             st.write(list_test_code)
 
     test_code_2 = '''0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789'''
