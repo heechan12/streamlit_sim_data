@@ -6,6 +6,7 @@ from constant import *
 # test_code = '''0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123'''
 
 # 전역 변수 라인
+# 향후 SIM Data 가 변경되었을 때 비교를 위해
 if 'OLD_SIM_DATA' not in st.session_state:
     st.session_state.OLD_SIM_DATA = None
 
@@ -15,7 +16,7 @@ if 'NEW_SIM_DATA' not in st.session_state:
 
 if __name__ == '__main__':
 
-    st.title('PLMN update tool')
+    st.title('SIM Data update tool')
 
     # 1. SIM Data 입력
     st.header('1. 기존 SIM Data 입력')
@@ -40,8 +41,6 @@ if __name__ == '__main__':
 
             st.session_state.OLD_SIM_DATA = SimData(list_test_code)
             st.session_state.NEW_SIM_DATA = SimData(list_test_code)
-            # OLD_SIM_DATA = SimData(list_test_code)
-            # NEW_SIM_DATA = OLD_SIM_DATA
 
             # sim_data = SimData(list_test_code)
             # print(sim_data.code0)
@@ -49,23 +48,22 @@ if __name__ == '__main__':
             # print(sim_data.code2)
             # print(sim_data.code3)
 
-    # 2. SIM Data 출력
-    st.header('2. 기존 정보 및 업데이트')
-    st.warning('각 항목 별로 업데이트 금지', icon="⚠️")
+            # 2. SIM Data 출력
+            st.header('2. 기존 정보 및 업데이트')
 
-    if st.session_state.NEW_SIM_DATA is not None :
-        st.sidebar.subheader('기존 정보')
-        st.sidebar.write('이곳에는 무슨 값을 넣을지 고민 중')
-        # st.sidebar.write(st.session_state.OLD_SIM_DATA)
+            if st.session_state.NEW_SIM_DATA is not None:
+                st.sidebar.subheader('기존 정보')
+                st.sidebar.write('이곳에는 무슨 값을 넣을지 고민 중')
+                st.sidebar.write(st.session_state.OLD_SIM_DATA.list)
 
-        mcc = st.text_input(label="MCC", value=st.session_state.NEW_SIM_DATA.code0[:3], max_chars=3, on_change=None)
-        mnc = st.text_input(label="MNC", value=st.session_state.NEW_SIM_DATA.code1[:3], max_chars=3, on_change=None)
+                mcc = st.text_input(label="MCC", value=st.session_state.NEW_SIM_DATA.code0[:3], max_chars=3,
+                                    on_change=None)
+                mnc = st.text_input(label="MNC", value=st.session_state.NEW_SIM_DATA.code1[:3], max_chars=3,
+                                    on_change=None)
 
-        if st.button('업데이트 정보 입력', type="primary"):
-            st.write(f"mcc : {mcc}")
-            st.write(f"mnc : {mnc}")
-
-
+                if st.button('업데이트 정보 입력', type="primary"):
+                    st.write(f"mcc : {mcc}")
+                    st.write(f"mnc : {mnc}")
 
     # # 탭 방식
     # tab1, tab2 = st.tabs(['기존 정보', '업데이트 정보 입력'])
