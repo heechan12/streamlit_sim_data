@@ -5,6 +5,14 @@ from constant import *
 
 # test_code = '''0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123'''
 
+# 전역 변수 라인
+if 'OLD_SIM_DATA' not in st.session_state:
+    st.session_state.OLD_SIM_DATA = None
+
+if 'NEW_SIM_DATA' not in st.session_state:
+    st.session_state.NEW_SIM_DATA = None
+
+
 if __name__ == '__main__':
 
     st.title('PLMN update tool')
@@ -30,6 +38,11 @@ if __name__ == '__main__':
             # Todo : 그런데 코드 구분이 정해진 숫자일지??? (담당자 확인 필요)
             list_test_code = util.split10(input_old_code)
 
+            st.session_state.OLD_SIM_DATA = SimData(list_test_code)
+            st.session_state.NEW_SIM_DATA = SimData(list_test_code)
+            # OLD_SIM_DATA = SimData(list_test_code)
+            # NEW_SIM_DATA = OLD_SIM_DATA
+
             # sim_data = SimData(list_test_code)
             # print(sim_data.code0)
             # print(sim_data.code1)
@@ -38,13 +51,33 @@ if __name__ == '__main__':
 
     # 2. SIM Data 출력
     st.header('2. 기존 정보 및 업데이트')
-    tab1, tab2 = st.tabs(['기존 정보', '업데이트 정보 입력'])
-    tab1.write(list_test_code)
+    st.warning('각 항목 별로 업데이트 금지', icon="⚠️")
 
-    mcc = tab2.text_input(label="MCC", value="123", max_chars=3)
-    mnc = tab2.text_input(label="MNC", value="456", max_chars=3)
-    print("mcc : " + mcc)
-    print("mnc : " + mnc)
+    if st.session_state.NEW_SIM_DATA is not None :
+        st.sidebar.subheader('기존 정보')
+        st.sidebar.write('이곳에는 무슨 값을 넣을지 고민 중')
+        # st.sidebar.write(st.session_state.OLD_SIM_DATA)
+
+        mcc = st.text_input(label="MCC", value=st.session_state.NEW_SIM_DATA.code0[:3], max_chars=3, on_change=None)
+        mnc = st.text_input(label="MNC", value=st.session_state.NEW_SIM_DATA.code1[:3], max_chars=3, on_change=None)
+
+        if st.button('업데이트 정보 입력', type="primary"):
+            st.write(f"mcc : {mcc}")
+            st.write(f"mnc : {mnc}")
+
+
+
+    # # 탭 방식
+    # tab1, tab2 = st.tabs(['기존 정보', '업데이트 정보 입력'])
+    # tab1.write(list_test_code)
+    #
+    # # 1번 세션에서 Code 확인 버튼을 눌렀을 때만 출력
+    # if SIM_DATA is not None:
+    #     mcc = tab2.text_input(label="MCC", value=SIM_DATA.code0, max_chars=3)
+    #     mnc = tab2.text_input(label="MNC", value=SIM_DATA.code1, max_chars=3)
+    #     print("mcc : " + mcc)
+    #     print("mnc : " + mnc)
+
     # col1, col2 = st.columns(2)
     # col1.subheader('기존 정보')
     # col1.write(list_test_code)
