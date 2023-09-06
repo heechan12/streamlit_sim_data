@@ -15,16 +15,27 @@ if 'OLD_SIM_DATA' not in st.session_state:
 if 'NEW_SIM_DATA' not in st.session_state:
     st.session_state.NEW_SIM_DATA = None
 
+# Session 1 처리 확인 용도
+if 'is_session_1_done' not in st.session_state:
+    st.session_state.is_session_1_done = False
+
+# Session 2 처리 확인 용도
+if 'is_session_2_done' not in st.session_state:
+    st.session_state.is_session_2_done = False
+
 
 if __name__ == '__main__':
 
-    st.title('SIM Data update tool')
+    st.title('SIM Data update tool? 📱')
 
     # 1. SIM Data 입력
     st.header('1. 기존 SIM Data 입력')
     input_old_code = st.text_area(label=":red[0x를 제외한 500자 Hex Code] 를 입력하세요",
                                   placeholder='0x를 제외한 500자 Hex Code를 입력하세요',
                                   height=200)
+    # 띄어쓰기, 개행문자 제거
+    input_old_code = input_old_code.replace(" ", "").replace("\n", "")
+
     list_test_code = []
 
     if st.button('Code 확인', type="primary"):
@@ -37,6 +48,7 @@ if __name__ == '__main__':
             st.success('코드가 정상입니다.', icon="👍")
             old_code = input_old_code
             st.toast('다음 단계로 넘어갑니다!', icon="👍")
+            st.session_state.is_session_1_done = True  # Session 1 확인
             # Todo : split_code_to_data_list 로 변경 필요
             # Todo : 그런데 코드 구분이 정해진 숫자일지??? (담당자 확인 필요)
             list_test_code = util.split10(input_old_code)
@@ -44,19 +56,17 @@ if __name__ == '__main__':
             st.session_state.OLD_SIM_DATA = SimData(list_test_code)
             st.session_state.NEW_SIM_DATA = SimData(list_test_code)
 
-            # sim_data = SimData(list_test_code)
-            # print(sim_data.code0)
-            # print(sim_data.code1)
-            # print(sim_data.code2)
-            # print(sim_data.code3)
-
-
     # 2. SIM Data 출력
-    st.header('2. 기존 정보 및 업데이트')
+    # 1번 세션에서 Code 확인 버튼을 눌렀을 때만 출력
+    if st.session_state.is_session_1_done is True:
+        st.header('2. 기존 정보 및 업데이트')
 
+    # Todo : Hex -> 무언가의 데이터로의 전환이 필요
+
+    # 데이터 전환 이후 처리하는 부분
     if st.session_state.NEW_SIM_DATA is not None:
         st.sidebar.subheader('기존 정보')
-        st.sidebar.write('이곳에는 무슨 값을 넣을지 고민 중')
+        st.sidebar.write('이곳에는 디코딩 된 Input Code 값을 출력할 예정')
         st.sidebar.write(st.session_state.OLD_SIM_DATA.list)
 
         mcc = st.text_input(label="MCC", value=st.session_state.NEW_SIM_DATA.code0[:3], max_chars=3,
@@ -65,8 +75,17 @@ if __name__ == '__main__':
                             on_change=None)
 
         if st.button('업데이트 정보 입력', type="primary"):
+            st.toast('값이 업데이트 되었습니다!', icon="🎉")
+            st.toast('다음 단계로 넘어갑니다!', icon="👍")
             st.write(f"mcc : {mcc}")
             st.write(f"mnc : {mnc}")
+
+            st.session_state.is_session_2_done = True  # Session 2 확인
+
+    # Session 3
+    # 최종 수정된 데이터 확인 및 출력
+    if st.session_state.is_session_2_done is True:
+        st.header('3. 변경된 정보 확인')
 
     # # 탭 방식
     # tab1, tab2 = st.tabs(['기존 정보', '업데이트 정보 입력'])
