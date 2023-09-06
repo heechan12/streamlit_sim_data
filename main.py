@@ -3,7 +3,9 @@ from Utils import util
 from Utils.sim_data import SimData
 from constant import *
 
-# test_code = '''0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123'''
+# test_code_2
+test_code = util.get_random_hex(CODE_LENGTH)
+print(test_code)
 
 # 전역 변수 라인
 # 향후 SIM Data 가 변경되었을 때 비교를 위해
@@ -34,7 +36,7 @@ if __name__ == '__main__':
         else:
             st.success('코드가 정상입니다.', icon="👍")
             old_code = input_old_code
-            # st.balloons()
+            st.toast('다음 단계로 넘어갑니다!', icon="👍")
             # Todo : split_code_to_data_list 로 변경 필요
             # Todo : 그런데 코드 구분이 정해진 숫자일지??? (담당자 확인 필요)
             list_test_code = util.split10(input_old_code)
@@ -48,22 +50,23 @@ if __name__ == '__main__':
             # print(sim_data.code2)
             # print(sim_data.code3)
 
-            # 2. SIM Data 출력
-            st.header('2. 기존 정보 및 업데이트')
 
-            if st.session_state.NEW_SIM_DATA is not None:
-                st.sidebar.subheader('기존 정보')
-                st.sidebar.write('이곳에는 무슨 값을 넣을지 고민 중')
-                st.sidebar.write(st.session_state.OLD_SIM_DATA.list)
+    # 2. SIM Data 출력
+    st.header('2. 기존 정보 및 업데이트')
 
-                mcc = st.text_input(label="MCC", value=st.session_state.NEW_SIM_DATA.code0[:3], max_chars=3,
-                                    on_change=None)
-                mnc = st.text_input(label="MNC", value=st.session_state.NEW_SIM_DATA.code1[:3], max_chars=3,
-                                    on_change=None)
+    if st.session_state.NEW_SIM_DATA is not None:
+        st.sidebar.subheader('기존 정보')
+        st.sidebar.write('이곳에는 무슨 값을 넣을지 고민 중')
+        st.sidebar.write(st.session_state.OLD_SIM_DATA.list)
 
-                if st.button('업데이트 정보 입력', type="primary"):
-                    st.write(f"mcc : {mcc}")
-                    st.write(f"mnc : {mnc}")
+        mcc = st.text_input(label="MCC", value=st.session_state.NEW_SIM_DATA.code0[:3], max_chars=3,
+                            on_change=None)
+        mnc = st.text_input(label="MNC", value=st.session_state.NEW_SIM_DATA.code1[:3], max_chars=3,
+                            on_change=None)
+
+        if st.button('업데이트 정보 입력', type="primary"):
+            st.write(f"mcc : {mcc}")
+            st.write(f"mnc : {mnc}")
 
     # # 탭 방식
     # tab1, tab2 = st.tabs(['기존 정보', '업데이트 정보 입력'])

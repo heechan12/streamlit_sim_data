@@ -1,3 +1,6 @@
+import random
+
+
 def isCorrectLength(code, length) -> bool:
     '''
     입력 받은 code 의 글자 수가 500자 인지 아닌지를 반환하는 함수
@@ -33,6 +36,26 @@ def str2hex(s):
 # 입력받은 문자열을 10 개씩 잘라서 리스트로 반환하는 함수
 def split10(s):
     return [s[i:i + 10] for i in range(0, len(s), 10)]
+
+
+def get_random_hex(length):
+    '''
+    테스트를 위한 함수 \n
+    입력받은 길이만큼의 랜덤한 Hex Code 를 반환
+    :param length:
+    :return:
+    '''
+    # 랜덤한 Hex 코드를 저장할 변수
+    hex_code = ""
+
+    # Hex 코드는 0부터 F까지의 문자로 이루어져 있으므로, 가능한 문자들을 리스트로 저장
+    hex_characters = "0123456789ABCDEF"
+
+    # 입력받은 길이만큼 랜덤한 Hex 문자를 생성하여 hex_code에 추가
+    for _ in range(length):
+        hex_code += random.choice(hex_characters)
+
+    return hex_code
 
 # SimData class 로 이동
 # def split_text(code, split_length_list) -> list:
