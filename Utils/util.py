@@ -57,6 +57,14 @@ def get_random_hex(length):
 
     return hex_code
 
+
+def change_value(old_data, new_data) :
+    temp_list = list(old_data)
+    for i in range(len(new_data)):
+        temp_list[i] = new_data[i]
+
+    return ''.join(temp_list)
+
 # SimData class 로 이동
 # def split_text(code, split_length_list) -> list:
 #     result = []
@@ -69,3 +77,11 @@ def get_random_hex(length):
 #             result.append(code[start:])
 #             break
 #     return result
+
+
+def decimal_to_hex(decimal_number):
+    return hex(decimal_number)[2:]
+
+
+
+version = '2768'
