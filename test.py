@@ -1,7 +1,12 @@
 import streamlit as st
 import pandas as pd
-from Utils.util import decimal_to_hex
-from constant import FIRST_APDU_COMMAND, SECOND_APDU_COMMAND, THIRD_APDU_COMMAND
+
+FIRST_APDU_COMMAND = 'AA82022CA20900A4080C047FFF6F61A281FF00D60000FA'
+SECOND_APDU_COMMAND = 'A20900A4080C047FFF6F61A281FF00D600FAFA'
+THIRD_APDU_COMMAND = 'A20700A4080C022F30A20700D6000502'
+
+def decimal_to_hex(decimal_number):
+    return hex(decimal_number)[2:]
 
 def process_excel(file, version):
     # 엑셀 파일을 읽고 두 번째 시트를 데이터프레임으로 로드
@@ -51,18 +56,14 @@ def process_excel(file, version):
     return final_code
 
 def main():
-    st.title("국가정보 업데이트_v0.1")
+    st.title("국가정보 업데이트")
 
     uploaded_file = st.file_uploader("Choose an Excel file", type="xlsx")
-    version = st.number_input("Enter Version (as an integer)", min_value=0, value=0)
-    generate_button = st.button("Generate Final Code")
+    version = st.number_input("Enter Version (as an integer)", min_value=0, value=10088)
 
-    if uploaded_file is not None and generate_button:
-        if isinstance(version, int) and version > 0:
-            final_code = process_excel(uploaded_file, version)
-            st.text_area("Final Code", final_code)
-        else:
-            st.error("Please enter a valid version number.")
+    if uploaded_file is not None:
+        final_code = process_excel(uploaded_file, version)
+        st.text_area("Final Code", final_code)
 
 if __name__ == "__main__":
     main()
