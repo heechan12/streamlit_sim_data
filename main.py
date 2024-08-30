@@ -3,6 +3,8 @@ import pandas as pd
 from Utils.util import decimal_to_hex
 from constant import FIRST_APDU_COMMAND, SECOND_APDU_COMMAND, THIRD_APDU_COMMAND
 
+st.set_page_config(layout="wide")
+
 def process_excel(file, version):
     # 엑셀 파일을 읽고 두 번째 시트를 데이터프레임으로 로드
     df = pd.read_excel(file, sheet_name=1)  # sheet_name=1은 두 번째 시트를 의미합니다.
@@ -53,14 +55,15 @@ def process_excel(file, version):
 def main():
     st.title("국가정보 업데이트_v0.1")
 
-    uploaded_file = st.file_uploader("Choose an Excel file", type="xlsx")
-    version = st.number_input("Enter Version (as an integer)", min_value=0, value=0)
-    generate_button = st.button("Generate Final Code")
+    uploaded_file = st.file_uploader("엑셀파일(xlsx) 추가", type="xlsx")
+    version = st.number_input("버전 정보(숫자) 입력", min_value=0, value=0)
+    generate_button = st.button("코드 생성")
 
     if uploaded_file is not None and generate_button:
         if isinstance(version, int) and version > 0:
             final_code = process_excel(uploaded_file, version)
-            st.text_area("Final Code", final_code)
+            st.text_area(label="최종 코드", value=final_code, height=300)
+            st.write(f"총 글자 수 : {len(final_code)}")
         else:
             st.error("Please enter a valid version number.")
 
