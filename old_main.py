@@ -1,6 +1,6 @@
 import streamlit as st
 from Utils.sim_data import SimData
-from Utils.util import *
+from Utils.old_util import *
 from constant import *
 
 # test_code_2
