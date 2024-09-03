@@ -6,9 +6,10 @@ def decimal_to_hex(decimal_number):
 
 def read_excel_as_pandas(file) -> pd :
     """
-    엑셀 파일을 불러오고 2번째 시트를 전달
-    :param file
-    :return:
+    전달받은 엑셀의 2번째 시트 내용을 전달
+
+    :param file : xlsx 파일
+    :return: pandas
     """
     try :
         excel_file = pd.read_excel(file, sheet_name=1)
@@ -18,6 +19,12 @@ def read_excel_as_pandas(file) -> pd :
         return
 
 def is_valid_sheet(excel_file: pd.DataFrame) -> bool :
+    """
+    엑셀 내 시트가 국가 정보 업데이트를 할 수 있는 템플릿의 시트인지 확인
+
+    :param excel_file:
+    :return: bool
+    """
     df = excel_file
 
     if df is not None :
@@ -39,6 +46,13 @@ def is_valid_sheet(excel_file: pd.DataFrame) -> bool :
         return False
 
 def edit_excel_data(excel_file: pd) -> str :
+    """
+    엑셀 내 시트의 데이터로 국가정보 업데이트 로직 수행
+    버전 코드는 없음
+
+    :param excel_file:
+    :return:
+    """
     df = excel_file
 
     if is_valid_sheet(df) :
@@ -92,6 +106,13 @@ def edit_excel_data(excel_file: pd) -> str :
 
     # 모든 셀에서 스페이스 제거
 def get_result_code(code:str, version) -> str :
+    """
+    국가 정보 업데이트를 위한 코드에 최종 버전 코드 추가
+
+    :param code:
+    :param version:
+    :return: 최종 코드
+    """
     version_hex = decimal_to_hex(version)
 
     if code is not None :
