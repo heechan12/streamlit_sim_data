@@ -1,5 +1,6 @@
 import pandas as pd
-from constant import FIRST_APDU_COMMAND, SECOND_APDU_COMMAND, THIRD_APDU_COMMAND
+from constant import FIRST_APDU_COMMAND, SECOND_APDU_COMMAND, THIRD_APDU_COMMAND_USIM, THIRD_APDU_COMMAND_ESIM
+
 
 def decimal_to_hex(decimal_number):
     return hex(decimal_number)[2:]
@@ -45,7 +46,7 @@ def is_valid_sheet(excel_file: pd.DataFrame) -> bool :
     else:
         return False
 
-def edit_excel_data(excel_file: pd) -> str :
+def generate_update_code(excel_file: pd) -> str :
     """
     엑셀 내 시트의 데이터로 국가정보 업데이트 로직 수행
     버전 코드는 없음
@@ -95,9 +96,10 @@ def edit_excel_data(excel_file: pd) -> str :
         # 51부터 100행까지를 하나의 문자열로 결합
         second_combined = ''.join(combined_data[50:])
 
-        edited_code = FIRST_APDU_COMMAND + first_combined + SECOND_APDU_COMMAND + second_combined + THIRD_APDU_COMMAND
+        usim_update_code = FIRST_APDU_COMMAND + first_combined + SECOND_APDU_COMMAND + second_combined + THIRD_APDU_COMMAND_USIM
+        esim_update_code = FIRST_APDU_COMMAND + first_combined + SECOND_APDU_COMMAND + second_combined + THIRD_APDU_COMMAND_ESIM
 
-        return edited_code
+        return usim_update_code, esim_update_code
 
     else :
         print("invalid excel and sheet")
@@ -105,7 +107,7 @@ def edit_excel_data(excel_file: pd) -> str :
         return 'invalid'
 
     # 모든 셀에서 스페이스 제거
-def get_result_code(code:str, version) -> str :
+def get_final_result_code(code:str, version) -> str :
     """
     국가 정보 업데이트를 위한 코드에 최종 버전 코드 추가
 

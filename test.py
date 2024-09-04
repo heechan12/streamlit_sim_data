@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-from Utils.utils import read_excel_as_pandas, edit_excel_data, get_result_code
-from constant import FIRST_APDU_COMMAND, SECOND_APDU_COMMAND, THIRD_APDU_COMMAND
+from Utils.utils import read_excel_as_pandas, generate_update_code, get_final_result_code
+from constant import FIRST_APDU_COMMAND, SECOND_APDU_COMMAND, THIRD_APDU_COMMAND_USIM
 
 st.set_page_config(layout="wide")
 
@@ -103,7 +103,7 @@ def edit_excel_data(excel_file: pd) -> str :
         # 51부터 100행까지를 하나의 문자열로 결합
         second_combined = ''.join(combined_data[50:])
 
-        edited_code = FIRST_APDU_COMMAND + first_combined + SECOND_APDU_COMMAND + second_combined + THIRD_APDU_COMMAND
+        edited_code = FIRST_APDU_COMMAND + first_combined + SECOND_APDU_COMMAND + second_combined + THIRD_APDU_COMMAND_USIM
 
         return edited_code
 
@@ -142,9 +142,9 @@ def main():
             excel_pd_file = read_excel_as_pandas(uploaded_file)
 
             if excel_pd_file is not None :
-                code = edit_excel_data(excel_pd_file)
+                code = generate_update_code(excel_pd_file)
                 if code != 'invalid' :
-                    result_code = get_result_code(code, version)
+                    result_code = get_final_result_code(code, version)
 
                     st.text_area(label="최종 코드", value=result_code, height=300)
                     st.write(f"총 글자 수 : {len(result_code)}")
