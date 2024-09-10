@@ -1,5 +1,7 @@
 import pandas as pd
-from constant import FIRST_APDU_COMMAND, SECOND_APDU_COMMAND, THIRD_APDU_COMMAND_USIM, THIRD_APDU_COMMAND_ESIM
+
+from constant import pSIM_FIRST_APDU_COMMAND, pSIM_SECOND_APDU_COMMAND, pSIM_THIRD_APDU_COMMAND, \
+    eSIM_FIRST_APDU_COMMAND, eSIM_SECOND_APDU_COMMAND, eSIM_THIRD_APDU_COMMAND
 
 
 def decimal_to_hex(decimal_number):
@@ -46,13 +48,13 @@ def is_valid_sheet(excel_file: pd.DataFrame) -> bool :
     else:
         return False
 
-def generate_update_code(excel_file: pd) -> str :
+def generate_update_code(excel_file: pd) :
     """
     엑셀 내 시트의 데이터로 국가정보 업데이트 로직 수행
     버전 코드는 없음
 
     :param excel_file:
-    :return:
+    :return:usim_update_code, esim_update_code
     """
     df = excel_file
 
@@ -96,8 +98,8 @@ def generate_update_code(excel_file: pd) -> str :
         # 51부터 100행까지를 하나의 문자열로 결합
         second_combined = ''.join(combined_data[50:])
 
-        usim_update_code = FIRST_APDU_COMMAND + first_combined + SECOND_APDU_COMMAND + second_combined + THIRD_APDU_COMMAND_USIM
-        esim_update_code = FIRST_APDU_COMMAND + first_combined + SECOND_APDU_COMMAND + second_combined + THIRD_APDU_COMMAND_ESIM
+        usim_update_code = pSIM_FIRST_APDU_COMMAND + first_combined + pSIM_SECOND_APDU_COMMAND + second_combined + pSIM_THIRD_APDU_COMMAND
+        esim_update_code = eSIM_FIRST_APDU_COMMAND + first_combined + eSIM_SECOND_APDU_COMMAND + second_combined + eSIM_THIRD_APDU_COMMAND
 
         return usim_update_code, esim_update_code
 

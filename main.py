@@ -6,9 +6,9 @@ from Utils.utils import read_excel_as_pandas, generate_update_code, get_final_re
 st.set_page_config(layout="wide")
 
 def main():
-    st.title("국가정보 업데이트 v0.3")
+    st.title("국가정보 업데이트 v0.4")
     st.container(height=30, border=False)
-    col1, col2 = st.columns(2, gap="large")
+    col1, col2, col3 = st.columns([1, 1, 0.5], gap="large")
 
     with col1:
         st.subheader("_엑셀 파일(.xlsx) 추가_", divider="gray")
@@ -18,8 +18,9 @@ def main():
         st.subheader("_버전 입력_", divider="gray")
         version = st.number_input("숫자만 입력 가능합니다", min_value=1, value=1, label_visibility="collapsed")
 
-
-    generate_button = st.button("코드 생성")
+    with col3 :
+        st.subheader("_코드 생성_", divider="gray")
+        generate_button = st.button("코드 생성")
 
 
     if uploaded_file is not None and generate_button:

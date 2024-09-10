@@ -1,3 +1,7 @@
+"""
+예지 코드
+"""
+
 import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext
 import pandas as pd
@@ -19,9 +23,10 @@ def decimal_to_hex(decimal_number):
 
 def read_excel_as_pandas(file) -> pd.DataFrame:
     try:
+        print("try")
         excel_file = pd.read_excel(file, sheet_name=1)
         return excel_file
-    except:
+    except Exception as e:
         messagebox.showerror("Error", f"Excel file Format Error")
         return None
 
