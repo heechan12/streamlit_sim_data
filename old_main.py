@@ -1,7 +1,7 @@
 import streamlit as st
 from Utils.sim_data import SimData
 from Utils.old_util import *
-from constant import *
+from Utils.old_contant import *
 
 # test_code_2
 test_code = get_random_hex(CODE_LENGTH)

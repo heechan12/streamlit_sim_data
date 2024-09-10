@@ -1,12 +1,13 @@
 import streamlit as st
-from streamlit import divider
+from st_copy_to_clipboard import st_copy_to_clipboard
 
 from Utils.utils import read_excel_as_pandas, generate_update_code, get_final_result_code
+from constant import ERROR_EXCEL_VALUE, ERROR_EXCEL_FILE, ERROR_VERSION_VALUE, TITLE, APP_VERSION
 
 st.set_page_config(layout="wide")
 
 def main():
-    st.title("국가정보 업데이트 v0.4")
+    st.title(TITLE + " " + str(APP_VERSION))
     st.container(height=30, border=False)
     col1, col2, col3 = st.columns([1, 1, 0.5], gap="large")
 
@@ -32,15 +33,21 @@ def main():
 
             if excel_pd_file is not None :
                 usim_code, esim_code = generate_update_code(excel_pd_file)
+
+                """
+                정상 성공 후 결과 화면
+                """
                 with st.container(border=True):
+                    st.toast("👍🏻 코드 생성에 성공하였습니다.")
                     if usim_code != 'invalid' :
                         usim_result_code = get_final_result_code(usim_code, version)
                         st.markdown(":orange-background[:red[*USIM Code*]]")
                         st.text_area(label="USIM 코드", value=usim_result_code, height=300, label_visibility="collapsed")
                         st.write(f"총 글자 수 : {len(usim_result_code)}")
+                        # st_copy_to_clipboard(text = usim_result_code, before_copy_label="클립보드에 복사하기")
 
                     else :
-                        st.error("엑셀 파일 내 값에 오류가 있습니다.")
+                        st.error(ERROR_EXCEL_VALUE)
 
                 with st.container(border=True):
                     if esim_code != 'invalid' :
@@ -48,15 +55,16 @@ def main():
                         st.markdown(":orange-background[:red[*ESIM Code*]]")
                         st.text_area(label="ESIM 코드", value=esim_result_code, height=300, label_visibility="collapsed")
                         st.write(f"총 글자 수 : {len(esim_result_code)}")
+                        # st_copy_to_clipboard(text=esim_result_code, before_copy_label="클립보드에 복사하기")
 
                     else :
-                        st.error("엑셀 파일 내 값에 오류가 있습니다.")
+                        st.error(ERROR_EXCEL_VALUE)
             else :
-                st.error("엑셀 파일에 오류가 있습니다.")
+                st.error(ERROR_EXCEL_FILE)
 
 
         else:
-            st.error("버전이 올바르지 않습니다.")
+            st.error(ERROR_VERSION_VALUE)
 
 
 if __name__ == "__main__":
