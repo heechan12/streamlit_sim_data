@@ -1,5 +1,4 @@
 import streamlit as st
-from st_copy_to_clipboard import st_copy_to_clipboard
 
 from Utils.utils import read_excel_as_pandas, generate_update_code, get_final_result_code
 from constant import ERROR_EXCEL_VALUE, ERROR_EXCEL_FILE, ERROR_VERSION_VALUE, TITLE, APP_VERSION
